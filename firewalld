@@ -1,0 +1,42 @@
+#First of all config your service and test that then start firewall configuration
+
+systemctl start firewalld
+firewall-cmd --state
+systemctl start named
+systemctl start ngnix
+systemctl status named
+
+firewall-cmd --list-all
+
+firewall-cmd --zone=public --permanent --add-port=53/udp
+firewall-cmd --zone=public --permanent --add-service=http
+irewall-cmd --zone=public --permanent --add-port=53/udp
+firewall-cmd --zone=public --permanent --add-port=80/tcp
+firewall-cmd --zone=public --permanent --add-port=443/tcp
+firewall-cmd --zone=public --permanent --add-service=https
+firewall-cmd --zone=public --permanent --add-protocol=icmp
+
+systemctl reload firewalld
+
+firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3 enp0s8
+  sources:
+  services: cockpit dhcpv6-client http https ssh
+  ports: 53/udp 80/tcp 443/tcp
+  protocols: icmp
+  forward: yes
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+#Test on your windows with telnet : Command to install Telnet in Windows PowerShell
+Enable-WindowsOptionalFeature -online -FeatureName telnetclient -all -norestart
+
+#Command to install Telnet in Windows CMD (as adminstator)
+dism /online /Enable-Feature /FeatureName:TelnetClient
+
